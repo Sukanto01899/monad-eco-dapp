@@ -15,7 +15,7 @@ const UserWallet = () => {
     isUserRegistered,
     isUserRegisteredFetching,
   } = useSmartAddress();
-  const [step, setStep] = useState<"balance" | "send" | "status">("status");
+  const [step, setStep] = useState<"balance" | "send" | "status">("balance");
 
   return (
     <dialog id="wallet_modal" className="modal modal-bottom sm:modal-middle">

@@ -82,8 +82,9 @@ const SendToken = ({
           name="token"
           aria-label="All"
         />
-        {tokens.map((token) => (
+        {tokens.map((token, index) => (
           <input
+            key={index}
             onChange={() => setSelectedToken(token)}
             className="btn"
             type="radio"

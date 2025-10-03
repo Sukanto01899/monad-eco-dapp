@@ -4,6 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import React, { FormEvent, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { FaUpload } from "react-icons/fa";
+import RecycleDetails from "./recycle-details";
 
 const RecycleImage = () => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -19,6 +20,27 @@ const RecycleImage = () => {
     mutationFn: async (formData: FormData) => {
       return await verifyImage(formData);
     },
+    onSuccess: (data) => {
+      if (fileInputRef.current) {
+        fileInputRef.current.files = null;
+      }
+      setFileUrl("");
+      if (data?.hash) {
+        toast.success("Verified! Reward sent to your wallet.", {
+          position: "top-right",
+        });
+      } else {
+        toast.error("Not verified! Please try again.", {
+          position: "top-right",
+        });
+      }
+    },
+    onError: (error) => {
+      toast.error("Something went wrong! Please try again.", {
+        position: "top-right",
+      });
+      console.log(error);
+    },
   });
 
   const handleSelectFile = () => {
@@ -33,6 +55,7 @@ const RecycleImage = () => {
       return;
     }
     const file = fileInputRef.current.files[0];
+    console.log(file);
     setFileUrl(URL.createObjectURL(file));
   };
 
@@ -52,7 +75,9 @@ const RecycleImage = () => {
     if (isError) {
       console.log(error);
     }
-  }, [isError]);
+
+    console.log(fileInputRef.current?.files);
+  }, [isError, fileInputRef]);
   return (
     <form
       onSubmit={handleUploadAndVerify}
@@ -79,11 +104,22 @@ const RecycleImage = () => {
       </div>
 
       <button
+        disabled={isPending}
         onClick={handleUploadAndVerify}
         className="btn btn-lg btn-wide mt-4 bg-accent"
       >
         Submit proof
       </button>
+
+      {data && isSuccess && (
+        <RecycleDetails
+          is_recycle={data.message.is_recycle}
+          confidence={data.message.confidence}
+          hash={data.hash}
+          proof_extracts={data.message.proof_extracts}
+          reasons={data.message.reasons}
+        />
+      )}
     </form>
   );
 };

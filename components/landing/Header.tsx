@@ -1,10 +1,21 @@
 "use client";
 import useAuth from "@/hooks/useAuth";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const Header = () => {
-  const { login, isReady } = useAuth();
+  const { login, isReady, isAuthenticated } = useAuth();
+  const router = useRouter();
+
+  const handleOpenApp = () => {
+    if (!isReady) return;
+    if (isAuthenticated) {
+      router.push("/dashboard");
+    } else {
+      login();
+    }
+  };
   return (
     <div className="fixed w-full navbar bg-base-100 shadow-sm">
       <div className="navbar-start">
@@ -49,9 +60,9 @@ const Header = () => {
             </li>
           </ul>
         </div>
-        <a className="btn btn-ghost text-xl">daisyUI</a>
+        <a className="btn btn-ghost text-xl">MonadEco</a>
       </div>
-      <div className="navbar-center hidden lg:flex">
+      {/* <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
           <li>
             <a>Item 1</a>
@@ -73,10 +84,10 @@ const Header = () => {
             <a>Item 3</a>
           </li>
         </ul>
-      </div>
+      </div> */}
       <div className="navbar-end">
-        <button disabled={!isReady} onClick={login} className="btn">
-          Open app
+        <button disabled={!isReady} onClick={handleOpenApp} className="btn">
+          {isAuthenticated ? "Open app" : "Login"}
         </button>
       </div>
     </div>

@@ -37,7 +37,7 @@ export const sendReward = async (user: string) => {
       address: contracts.EcoRewardDistributor.address as `0x${string}`,
       abi: contracts.EcoRewardDistributor.abi,
       functionName: "distributeReward",
-      args: [userAddress, "RECYCLE_PROOF"],
+      args: [userAddress, 3],
     });
     return txHash;
   } catch (error) {
