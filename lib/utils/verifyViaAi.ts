@@ -42,7 +42,7 @@ async function aiVerification(path: string) {
       // Check specifically for the 503 UNAVAILABLE or other rate limit errors (like 429)
       if (
         (error instanceof ApiError && error.status === 503) ||
-        error.status === 429
+        (error instanceof ApiError && error.status === 429)
       ) {
         console.warn(
           `AI Verification failed on attempt ${attempt} with status ${error.status}. Retrying...`
