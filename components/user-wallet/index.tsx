@@ -1,21 +1,13 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import WalletState from "./wallet-state";
-import { useReadContract } from "wagmi";
-import { usePrivy } from "@privy-io/react-auth";
-import contracts from "@/contracts/abi/abi";
 import useSmartAddress from "@/hooks/useSmartAddress";
 import CreateSmartAccount from "./create-smart-accoun";
 
 const UserWallet = () => {
-  const {
-    smartAddress,
-    isUserRegisteredLoading,
-    isUserRegisteredRefetch,
-    isUserRegistered,
-    isUserRegisteredFetching,
-  } = useSmartAddress();
-  const [step, setStep] = useState<"balance" | "send" | "status">("balance");
+  const { refetch, smartUser, isSmartUserLoading, isFetched } =
+    useSmartAddress();
+  const [step, setStep] = useState<"balance" | "send" | "status">("status");
 
   return (
     <dialog id="wallet_modal" className="modal modal-bottom sm:modal-middle">
@@ -28,17 +20,20 @@ const UserWallet = () => {
             ✕
           </button>
         </form>
-        {!!isUserRegistered && <h3 className="font-bold text-lg">Wallet</h3>}
-        {isUserRegisteredLoading ? (
-          "Loading"
-        ) : isUserRegistered ? (
+        {!isSmartUserLoading && <h3 className="font-bold text-lg">Wallet</h3>}
+        {isSmartUserLoading ? (
+          <div className="flex flex-col w-full justify-center items-center h-40">
+            <span className="loading loading-ring loading-xl"></span>
+            <p className="text-xs">Please wait...</p>
+          </div>
+        ) : smartUser?.user ? (
           <WalletState
             setStep={setStep}
             step={step}
-            smartAddress={smartAddress as `0x${string}`}
+            smartAddress={smartUser?.user?.smart_address as `0x${string}`}
           />
         ) : (
-          <CreateSmartAccount refetch={isUserRegisteredRefetch} />
+          <CreateSmartAccount refetch={refetch} />
         )}
       </div>
     </dialog>

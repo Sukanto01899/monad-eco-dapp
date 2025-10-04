@@ -1,5 +1,5 @@
+"use client";
 import React, { useState } from "react";
-import WalletTokens from "./wallet-tokens";
 import TotalBalance from "./total-balance";
 import SendToken from "./send-token";
 import SendSuccess from "./send-success";
@@ -11,13 +11,20 @@ type WalletStateProps = {
 };
 
 const WalletState = ({ smartAddress, step, setStep }: WalletStateProps) => {
+  const [txHash, setTxHash] = useState("");
   return (
     <>
       {step === "balance" && (
         <TotalBalance setStep={setStep} smartAddress={smartAddress} />
       )}
-      {step === "send" && <SendToken setStep={setStep} />}
-      {step === "status" && <SendSuccess setStep={setStep} />}
+      {step === "send" && (
+        <SendToken
+          smartAddress={smartAddress}
+          setTxHash={setTxHash}
+          setStep={setStep}
+        />
+      )}
+      {step === "status" && <SendSuccess txHash={txHash} setStep={setStep} />}
     </>
   );
 };

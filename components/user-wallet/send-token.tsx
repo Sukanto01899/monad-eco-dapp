@@ -1,97 +1,81 @@
-import contracts from "@/contracts/abi/abi";
 import tokens, { Token } from "@/data/tokens";
-import { usePimlicoServices } from "@/hooks/usePimlicoServices";
-import useSmartAccount from "@/hooks/useSmartAccount";
+import { transferApi } from "@/endpoints/authApi";
+import { useMutation } from "@tanstack/react-query";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { FaRocket } from "react-icons/fa";
-import { parseAbi, parseEther, parseUnits } from "viem";
+import BtnLoading from "../common/btn-loading";
+import { useBalance } from "wagmi";
+import contracts from "@/contracts/abi/abi";
 
 const SendToken = ({
   setStep,
+  setTxHash,
+  smartAddress,
 }: {
   setStep: (step: "balance" | "send" | "status") => void;
+  setTxHash: (txHash: string) => void;
+  smartAddress: `0x${string}`;
 }) => {
-  const { getSmartWallet } = useSmartAccount();
-  const { bundlerClient, pimlicoClient, paymasterClient } =
-    usePimlicoServices();
-  const [selectedToken, setSelectedToken] = useState<Token | null>(null);
   const [toAddress, setToAddress] = useState("");
   const [amount, setAmount] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
+  const { data: balance } = useBalance({
+    address: smartAddress,
+    token: contracts.EcoReward.address as `0x${string}`,
+  });
+
+  const {
+    mutate: transferMutate,
+    isPending,
+    isError,
+    isSuccess,
+    data,
+  } = useMutation({
+    mutationFn: async () => {
+      return await transferApi(toAddress as `0x${string}`, amount);
+    },
+    onSuccess(data) {
+      if (data?.isSuccess) {
+        toast.success("Send successful!");
+        setTxHash(data?.transactionHash);
+        setStep("status");
+      } else {
+        toast.error(data?.error || "Send failed!");
+      }
+    },
+    onError(error) {
+      toast.error("Sending failed!");
+    },
+    onSettled() {
+      setAmount("");
+      setToAddress("");
+    },
+  });
 
   const handleSendToken = async () => {
-    if (!bundlerClient || !pimlicoClient) {
-      toast("Something wrong!", { position: "top-right" });
-      return;
-    }
-    if (!selectedToken) {
-      toast("Select token!", { position: "top-right" });
-      return;
-    }
     if (!toAddress || !toAddress.match(/^(0x)?[0-9a-fA-F]{40}$/)) {
-      toast("Invalid address!", { position: "top-right" });
+      toast.error("Invalid address!", { position: "top-right" });
       return;
     }
     if (!amount || (amount && parseFloat(amount) < 0)) {
-      toast("Invalid amount!", { position: "top-right" });
+      toast.error("Invalid amount!", { position: "top-right" });
       return;
     }
-    try {
-      setIsLoading(true);
-      const smartAccount = await getSmartWallet();
-      const { fast: fee } = await pimlicoClient.getUserOperationGasPrice();
-      const method = {
-        MON: {
-          to: toAddress as `0x${string}`,
-          value: parseEther(amount),
-        },
-        ECO: {
-          to: contracts.EcoReward.address as `0x${string}`,
-          abi: parseAbi(["function transfer(address,uint256)"]),
-          functionName: "transfer",
-          args: [toAddress, parseUnits(amount, 18)],
-        },
-      };
-      const selectedMethod =
-        selectedToken.code === "MON" ? method.MON : method.ECO;
-      const userOperationHash = await bundlerClient.sendUserOperation({
-        account: smartAccount,
-        calls: [selectedMethod],
-        ...fee,
-        paymaster: paymasterClient,
-      });
 
-      if (userOperationHash) {
-        setStep("status");
-      }
-    } catch (error) {
-      console.log(error);
-      toast("Something wrong", { position: "top-right" });
-    } finally {
-      setIsLoading(false);
-    }
+    transferMutate();
   };
   return (
-    <div className="w-full mt-6">
-      <div className="filter mb-4">
-        <input
-          className="btn filter-reset"
-          type="radio"
-          name="token"
-          aria-label="All"
-        />
-        {tokens.map((token, index) => (
-          <input
-            key={index}
-            onChange={() => setSelectedToken(token)}
-            className="btn"
-            type="radio"
-            name="token"
-            aria-label={token.code}
-          />
-        ))}
+    <div className="w-full mt-4">
+      <div className=" mb-4 w-full flex flex-col items-center justify-center">
+        <div className="avatar">
+          <div className="w-18 rounded-full">
+            <img src="https://img.daisyui.com/images/profile/demo/yellingcat@192.webp" />
+          </div>
+        </div>
+
+        <p className="text-neutral-content text-bold">
+          Balance: {balance?.formatted.slice(0, 8)} ECO
+        </p>
       </div>
 
       <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-full border p-4">
@@ -99,6 +83,7 @@ const SendToken = ({
         <input
           onChange={(e) => setToAddress(e.target.value)}
           type="text"
+          value={toAddress}
           className="input w-full"
           placeholder="0x......."
         />
@@ -113,10 +98,11 @@ const SendToken = ({
 
         <button
           onClick={handleSendToken}
-          disabled={isLoading}
+          disabled={isPending || !amount || !toAddress}
           className="btn btn-neutral mt-4"
         >
-          Send {selectedToken && selectedToken.code} <FaRocket />
+          {isPending && <BtnLoading />}
+          Send <FaRocket />
         </button>
         <button
           onClick={() => setStep("balance")}

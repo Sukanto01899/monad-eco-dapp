@@ -1,5 +1,7 @@
 import contracts from "@/contracts/abi/abi";
 import client, { publicClient } from "../config/walletClient";
+import dbConnect from "../config/dbConnect";
+import User from "@/model/User";
 
 export const saveUser = async (user: string[]) => {
   const gasEstimate = await publicClient.estimateContractGas({
@@ -20,24 +22,13 @@ export const saveUser = async (user: string[]) => {
   return txHash;
 };
 
-export const sendReward = async (user: string) => {
+export const sendReward = async (address: string) => {
   try {
-    const userAddress = await publicClient.readContract({
-      address: contracts.EcoUser.address as `0x${string}`,
-      abi: contracts.EcoUser.abi,
-      functionName: "getAddressByPrivyDID",
-      args: [user],
-    });
-    console.log("user address: ", userAddress);
-    if (!userAddress) {
-      throw Error("Address not found!");
-    }
-
     const txHash = await client.writeContract({
       address: contracts.EcoRewardDistributor.address as `0x${string}`,
       abi: contracts.EcoRewardDistributor.abi,
       functionName: "distributeReward",
-      args: [userAddress, 3],
+      args: [address, 3],
     });
     return txHash;
   } catch (error) {

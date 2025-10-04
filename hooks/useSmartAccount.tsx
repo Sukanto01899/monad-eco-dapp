@@ -8,7 +8,7 @@ import {
 import { usePrivy, useWallets } from "@privy-io/react-auth";
 import { useCallback, useEffect, useState, useRef } from "react";
 import { createWalletClient, custom } from "viem";
-import { mainnet } from "viem/chains";
+import { monadTestnet } from "viem/chains";
 import { usePublicClient } from "wagmi";
 
 const STORAGE_KEY = "smartAddress";
@@ -49,7 +49,7 @@ const useSmartAccount = () => {
 
         const walletClient = createWalletClient({
           account: address,
-          chain: mainnet,
+          chain: monadTestnet,
           transport: custom(eip1193provider),
         });
 
@@ -122,14 +122,14 @@ const useSmartAccount = () => {
     }
   }, [userWallet, createSmartWallet]);
 
-  // Clear cached instance when wallet changes
-  useEffect(() => {
-    smartAccountRef.current = null;
-  }, [userWallet?.address]);
+  // // Clear cached instance when wallet changes
+  // useEffect(() => {
+  //   smartAccountRef.current = null;
+  // }, [userWallet?.address]);
 
-  useEffect(() => {
-    initializeSmartWallet();
-  }, [initializeSmartWallet]);
+  // useEffect(() => {
+  //   initializeSmartWallet();
+  // }, [initializeSmartWallet]);
 
   return {
     smartAddress,

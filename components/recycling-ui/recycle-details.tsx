@@ -18,7 +18,7 @@ const RecycleDetails = ({
   return (
     <div className="card bg-base-300 rounded-box grid h-20 grow place-items-center mt-4">
       <h2 className={is_recycle === "yes" ? "text-green-500" : "text-red-500"}>
-        {is_recycle === "yes" ? "Recycling successful!" : "Recycling failed."}
+        {is_recycle === "yes" ? "Recycling successful!" : "No recycling."}
       </h2>
       {confidence && <p className="text-sm">Confidence: {confidence}</p>}
 

@@ -4,6 +4,8 @@ import { writeFile, unlink } from "fs/promises";
 import aiVerification from "@/lib/utils/verifyViaAi";
 import { parseAiResponse } from "@/lib/utils/aiResponseParse";
 import { sendReward } from "@/lib/utils/saveDataOnBlockchain";
+import dbConnect from "@/lib/config/dbConnect";
+import User from "@/model/User";
 
 export async function POST(request: NextRequest) {
   const userHeader = request.headers.get("x-user");
@@ -24,6 +26,7 @@ export async function POST(request: NextRequest) {
 
   // Try catch block to handle file saving and AI verification
   try {
+    await dbConnect();
     const { userId } = JSON.parse(userHeader);
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
@@ -47,7 +50,14 @@ export async function POST(request: NextRequest) {
     }
 
     if (aiResponse?.is_recycle === "yes") {
-      const hash = await sendReward(userId);
+      const user = await User.findOne({ userId });
+      if (!user || !user.smart_address) {
+        return NextResponse.json(
+          { message: "User not found or smart address missing" },
+          { status: 400 }
+        );
+      }
+      const hash = await sendReward(user.smart_address);
       console.log("Reward tx hash: ", hash);
       return NextResponse.json(
         { message: aiResponse, hash: hash },

@@ -24,7 +24,7 @@ export default function PrivyProviders({
         appearance: {
           landingHeader: "ECOReward",
         },
-        loginMethods: ["email", "google", "twitter", "passkey", "wallet"],
+        loginMethods: ["email", "wallet"],
       }}
     >
       {children}

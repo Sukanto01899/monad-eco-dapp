@@ -8,18 +8,24 @@ export async function middleware(request: NextRequest) {
   const authToken = request.cookies.get("privy-token")?.value;
   // console.log(authToken);
   if (!authToken) {
-    return NextResponse.json({
-      state: 401,
-      message: "Access token not found!",
-    });
+    return NextResponse.json(
+      {
+        error: "Access token not found!",
+        isSuccess: false,
+      },
+      { status: 401 }
+    );
   }
   const decodedUser = await verifyPrivyAccessToken(authToken);
   console.log("decoded user", decodedUser);
   if (!decodedUser) {
-    return NextResponse.json({
-      state: 403,
-      message: "Unauthorized!",
-    });
+    return NextResponse.json(
+      {
+        error: "Unauthorized!",
+        isSuccess: false,
+      },
+      { status: 401 }
+    );
   }
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("x-user", JSON.stringify(decodedUser));

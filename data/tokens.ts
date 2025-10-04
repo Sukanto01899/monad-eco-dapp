@@ -1,12 +1,5 @@
 const tokens = [
   {
-    name: "Monad",
-    logo: "https://miro.medium.com/0*aRHYdVg5kllfc7Gn.jpg",
-    code: "MON",
-    address: "",
-    decimal: 18,
-  },
-  {
     name: "Eco Reward",
     logo: "https://miro.medium.com/0*aRHYdVg5kllfc7Gn.jpg",
     code: "ECO",

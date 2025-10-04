@@ -1,14 +1,17 @@
 import { Token } from "@/data/tokens";
+import useSmartAccount from "@/hooks/useSmartAccount";
 import useSmartAddress from "@/hooks/useSmartAddress";
 import React from "react";
 import { useBalance } from "wagmi";
 
 const TokenItem = ({ name, code, address }: Token) => {
-  const { smartAddress } = useSmartAddress();
+  const { smartAddress: smartAccountAddress } = useSmartAccount();
+  const { smartUser } = useSmartAddress();
   const { data } = useBalance({
-    address: smartAddress as `0x${string}`,
+    address: smartUser?.user?.smart_address as `0x${string}`,
     token: address === "" ? undefined : (address as `0x${string}`),
   });
+
   return (
     <li className="list-row">
       <div>

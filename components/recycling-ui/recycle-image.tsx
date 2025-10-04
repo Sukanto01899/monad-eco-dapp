@@ -5,6 +5,7 @@ import React, { FormEvent, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { FaUpload } from "react-icons/fa";
 import RecycleDetails from "./recycle-details";
+import BtnLoading from "../common/btn-loading";
 
 const RecycleImage = () => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -108,6 +109,7 @@ const RecycleImage = () => {
         onClick={handleUploadAndVerify}
         className="btn btn-lg btn-wide mt-4 bg-accent"
       >
+        {isPending && <BtnLoading />}
         Submit proof
       </button>
 
