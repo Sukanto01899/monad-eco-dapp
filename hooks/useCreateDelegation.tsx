@@ -52,7 +52,7 @@ const useCreateDelegation = () => {
         throw new Error("Delegator smart account not found");
       }
       const delegation = createDelegation({
-        to: "0x8A0f614d04B4205564234ba53D518362F200e83c",
+        to: process.env.NEXT_PUBLIC_PLATFORM_SMART_ADDRESS as `0x${string}`,
         from: delegatorSmartAccount.address,
         environment: delegatorSmartAccount.environment,
         scope: {
