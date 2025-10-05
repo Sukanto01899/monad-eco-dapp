@@ -1,5 +1,7 @@
 import React from "react";
 import WalletTokens from "./wallet-tokens";
+import { useBalance } from "wagmi";
+import contracts from "@/contracts/abi/abi";
 
 type TotalBalanceProps = {
   smartAddress: `0x${string}`;
@@ -7,11 +9,17 @@ type TotalBalanceProps = {
 };
 
 const TotalBalance = ({ smartAddress, setStep }: TotalBalanceProps) => {
+  const { data: balance } = useBalance({
+    address: smartAddress,
+    token: contracts.EcoReward.address,
+  });
   return (
     <div className="flex flex-col gap-4">
       <div className="mt-8">
         <div className="stat-title">Account balance</div>
-        <div className="stat-value">$50.00</div>
+        <div className="stat-value">
+          {balance ? balance.formatted.slice(0, 8) : "0.00"} ECO
+        </div>
       </div>
 
       <p className="text-xs text-neutral-content">

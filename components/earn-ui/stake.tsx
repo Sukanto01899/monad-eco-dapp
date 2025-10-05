@@ -26,7 +26,6 @@ const Stake = () => {
       return stakeApi(amount);
     },
     onSuccess: (data) => {
-      console.log("Stake successful:", data);
       if (data?.isSuccess && data?.transactionHash) {
         toast.success("Stake successful!");
       } else {
@@ -76,9 +75,7 @@ const Stake = () => {
   const handleMax = () => {
     // Set the amount to the maximum available balance
     setAmount(parseInt(balanceData?.formatted || "") + "");
-    console.log("Max amount set:", balanceData?.formatted);
   };
-  console.log(hasEnoughBalance);
 
   const openStakeConfirmModal = () => {
     const modal = document.getElementById(

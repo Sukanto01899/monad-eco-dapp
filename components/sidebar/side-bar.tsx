@@ -24,7 +24,7 @@ const Sidebar = () => {
       <div className="menu bg-base-200 text-base-content min-h-full w-60 lg:w-80 p-4 flex flex-col justify-between">
         <div className="space-y-4">
           <div className="flex flex-col items-center justify-center w-full border-b border-base-100 pb-4">
-            <h1 className="text-3xl">EcoReward</h1>
+            <h1 className="text-3xl">MonadEco</h1>
             <p className="text-xs text-center text-neutral-content">
               Transform Waste, Transform the World!
             </p>

@@ -56,7 +56,6 @@ const RecycleImage = () => {
       return;
     }
     const file = fileInputRef.current.files[0];
-    console.log(file);
     setFileUrl(URL.createObjectURL(file));
   };
 
@@ -72,13 +71,6 @@ const RecycleImage = () => {
     verifyImageMutation(formData);
   };
 
-  useEffect(() => {
-    if (isError) {
-      console.log(error);
-    }
-
-    console.log(fileInputRef.current?.files);
-  }, [isError, fileInputRef]);
   return (
     <form
       onSubmit={handleUploadAndVerify}

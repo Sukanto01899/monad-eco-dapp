@@ -1,4 +1,77 @@
-@import "tailwindcss";
+/* @import "tailwindcss";
 @plugin "daisyui" {
   themes: dark --default, light --prefersdark, forest;
+} */
+
+@import "tailwindcss";
+@plugin "daisyui";
+@plugin "daisyui/theme" {
+  name: "deepviolet";
+  default: true; /* set as default */
+  prefersdark: true; /* Set as default DARK mode */
+  color-scheme: dark; /* color of browser-provided UI */
+
+  /* --- Base/Background Colors (Dark, near-black purple) --- */
+  --color-base-100: oklch(
+    12% 0.02 300
+  ); /* Main background: Very dark, slight purple tint */
+  --color-base-200: oklch(
+    18% 0.03 300
+  ); /* Secondary background: Slightly lighter dark purple */
+  --color-base-300: oklch(
+    25% 0.04 300
+  ); /* Tertiary background: A bit more saturated dark purple */
+  --color-base-content: oklch(95% 0.01 300); /* Content on base: Near-white */
+
+  /* --- Primary (Your deep violet color) --- */
+  --color-primary: oklch(18% 0.14 300); /* Your color: #200052 */
+  --color-primary-content: oklch(
+    98% 0.01 300
+  ); /* Content on primary: Near-white for high contrast */
+
+  /* --- Secondary (Lighter/Brighter Purple Accent) --- */
+  --color-secondary: oklch(
+    65% 0.2 320
+  ); /* A brighter, medium-light magenta-purple */
+  --color-secondary-content: oklch(
+    20% 0.05 320
+  ); /* Content on secondary: Dark purple for contrast */
+
+  /* --- Accent (High-contrast color, e.g., Cyan/Pink) --- */
+  --color-accent: oklch(65% 0.15 20); /* A bright, contrasting pink/fuchsia */
+  --color-accent-content: oklch(
+    20% 0.05 20
+  ); /* Content on accent: Dark for contrast */
+
+  /* --- Neutral (Dark Grey/Shadow) --- */
+  --color-neutral: oklch(28% 0.02 300); /* Desaturated dark grey/purple */
+  --color-neutral-content: oklch(
+    85% 0.01 300
+  ); /* Content on neutral: Light grey */
+
+  /* --- State/Feedback Colors (Adjusted for dark background) --- */
+  --color-info: oklch(60% 0.1 240); /* Blue for info */
+  --color-info-content: oklch(20% 0.05 240);
+
+  --color-success: oklch(60% 0.15 140); /* Green for success */
+  --color-success-content: oklch(20% 0.05 140);
+
+  --color-warning: oklch(75% 0.18 80); /* Yellow for warning */
+  --color-warning-content: oklch(20% 0.05 80);
+
+  --color-error: oklch(60% 0.15 40); /* Red for error */
+  --color-error-content: oklch(98% 0.01 40); /* Content on error: Near-white */
+
+  /* --- Design Variables (Kept the same) --- */
+  --radius-selector: 1rem;
+  --radius-field: 0.25rem;
+  --radius-box: 0.5rem;
+
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+
+  --border: 1px;
+
+  --depth: 1;
+  --noise: 0;
 }

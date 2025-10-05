@@ -2,7 +2,7 @@
 
 import { claimRewardsApi } from "@/endpoints/authApi";
 import { useMutation } from "@tanstack/react-query";
-import React from "react";
+import React, { useState } from "react";
 import { FaArrowRight, FaGift } from "react-icons/fa";
 import Modal from "../common/modal";
 import ConfirmModal from "./confirm-modal";
@@ -11,6 +11,7 @@ import BtnLoading from "../common/btn-loading";
 import useUserStakeInfo from "@/hooks/useUserStakeInfo";
 
 const RewardClaim = () => {
+  const [disableClaim, setDisableClaim] = useState(false);
   const { pending, isLoading, refetch, isFetching } = useUserStakeInfo();
   const {
     mutate: claimRewards,
@@ -24,11 +25,21 @@ const RewardClaim = () => {
       return claimRewardsApi();
     },
     onSuccess: (data) => {
+      setDisableClaim(true);
       if (data?.isSuccess && data?.transactionHash) {
         toast.success("Rewards claimed successfully!");
       } else {
         toast.error(data.error || "Failed to claim rewards.");
       }
+
+      setTimeout(() => {
+        setDisableClaim(false);
+        refetch();
+      }, 10000);
+    },
+    onError: (error) => {
+      console.log(error);
+      toast.error("Something went wrong!");
     },
     onSettled: () => {
       refetch();
@@ -38,7 +49,7 @@ const RewardClaim = () => {
   const hasMinClaim = parseFloat(pending) >= 0.01;
 
   const openClaimRewardsModal = () => {
-    if (!hasMinClaim || isLoading) return;
+    if (!hasMinClaim || isLoading || disableClaim) return;
     const modal = document.getElementById(
       "claim_rewards_modal"
     ) as HTMLDialogElement;
@@ -69,7 +80,7 @@ const RewardClaim = () => {
       <button
         className="btn bg-neutral w-full"
         onClick={openClaimRewardsModal}
-        disabled={isPending || !hasMinClaim || isFetching}
+        disabled={isPending || !hasMinClaim || disableClaim}
       >
         {isPending && <BtnLoading />}
         {hasMinClaim ? "Claim Rewards" : "MIN Claim 0.01 ECO"}

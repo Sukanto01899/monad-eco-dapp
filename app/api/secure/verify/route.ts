@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
           { status: 400 }
         );
       }
-      const hash = await sendReward(user.smart_address);
+      const hash = await sendReward(user.smart_address, 3);
       console.log("Reward tx hash: ", hash);
       return NextResponse.json(
         { message: aiResponse, hash: hash, isSuccess: true },

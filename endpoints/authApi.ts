@@ -8,7 +8,6 @@ export const saveUserApi = async (
     smartAddress: address,
     signDelegation: delegation,
   });
-  console.log(res);
   return res.data;
 };
 
@@ -18,24 +17,20 @@ export const verifyImage = async (fromData: FormData) => {
       "Content-Type": "multipart/form-data",
     },
   });
-  console.log(res);
   return res.data;
 };
 
 export const getUser = async () => {
   const res = await authApi.get("/auth");
-  console.log(res);
   return res.data;
 };
 
 export const stakeApi = async (amount: string) => {
   const res = await authApi.post("/stake", { amount });
-  console.log(res);
   return res.data;
 };
 export const unstakeApi = async (amount: string) => {
   const res = await authApi.post("/unstake", { amount });
-  console.log(res);
   return res.data;
 };
 export const transferApi = async (
@@ -43,11 +38,14 @@ export const transferApi = async (
   amount: string
 ) => {
   const res = await authApi.post("/transfer", { recipientAddress, amount });
-  console.log(res);
   return res.data;
 };
 export const claimRewardsApi = async () => {
   const res = await authApi.post("/claim-rewards");
+  return res.data;
+};
+export const claimDailyApi = async () => {
+  const res = await authApi.post("/claim-daily");
   console.log(res);
   return res.data;
 };

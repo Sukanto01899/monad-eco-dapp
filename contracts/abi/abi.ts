@@ -326,7 +326,7 @@ const contracts = {
     ],
   },
   EcoReward: {
-    address: "0x2034458fdbf3f615e6b0cf209c26f708fb73a175",
+    address: "0x2034458fdbf3f615e6b0cf209c26f708fb73a175" as `0x${string}`,
     abi: [
       {
         inputs: [
@@ -796,7 +796,7 @@ const contracts = {
     ],
   },
   EcoRewardDistributor: {
-    address: "0xdfc7a47d8003caa5b9fdc8592d06d9dd41868df1",
+    address: "0xdfc7a47d8003caa5b9fdc8592d06d9dd41868df1" as `0x${string}`,
     abi: [
       {
         inputs: [
@@ -1305,7 +1305,7 @@ const contracts = {
     ],
   },
   ECOStaking: {
-    address: "0xd692807be5ce12b17dd85fb638faa8f86773e924",
+    address: "0xd692807be5ce12b17dd85fb638faa8f86773e924" as `0x${string}`,
     abi: [
       {
         inputs: [],

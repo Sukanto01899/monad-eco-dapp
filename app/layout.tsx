@@ -26,14 +26,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-theme="forest">
+    <html lang="en" data-theme="deepviolet">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Provider>
           {children}
           <div id="modal-root"></div>
-          <Toaster />
+          <Toaster position="top-right" />
         </Provider>
       </body>
     </html>

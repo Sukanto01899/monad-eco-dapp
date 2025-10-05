@@ -14,7 +14,7 @@ const useAuth = () => {
       loginMethod,
       loginAccount,
     }) => {
-      if (user) {
+      if (isNewUser) {
         router.push("/dashboard");
       }
     },

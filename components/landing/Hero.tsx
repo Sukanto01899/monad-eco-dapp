@@ -1,11 +1,30 @@
 "use client";
 import useAuth from "@/hooks/useAuth";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const Hero = () => {
   const { login, isReady, isAuthenticated } = useAuth();
+  const router = useRouter();
+
+  const handleOpenApp = () => {
+    if (!isReady) return;
+    if (isAuthenticated) {
+      router.push("/dashboard");
+    } else {
+      login();
+    }
+  };
+
   return (
-    <div className="hero bg-base-200 min-h-screen">
+    <div
+      className="hero min-h-screen"
+      style={{
+        backgroundImage:
+          "url(https://img.daisyui.com/images/stock/photo-1507358522600-9f71e620c44e.webp)",
+      }}
+    >
+      <div className="hero-overlay"></div>
       <div className="hero-content text-center">
         <div className="max-w-md">
           <h1 className="text-5xl font-bold">Hello there</h1>
@@ -15,11 +34,11 @@ const Hero = () => {
             a id nisi.
           </p>
           <button
-            disabled={!isReady || (isReady && isAuthenticated)}
-            onClick={login}
+            disabled={!isReady}
+            onClick={handleOpenApp}
             className="btn btn-primary"
           >
-            Get Started
+            {isAuthenticated ? "Open App" : "Get Started"}
           </button>
         </div>
       </div>
