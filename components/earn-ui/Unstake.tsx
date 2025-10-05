@@ -1,6 +1,6 @@
 "use client";
 import contracts from "@/contracts/abi/abi";
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useReadContracts } from "wagmi";
 import Modal from "../common/modal";
 import ConfirmModal from "./confirm-modal";
@@ -11,10 +11,12 @@ import toast from "react-hot-toast";
 import BtnLoading from "../common/btn-loading";
 import { FaArrowRight } from "react-icons/fa";
 import useSmartAddress from "@/hooks/useSmartAddress";
+import useUserStakeInfo from "@/hooks/useUserStakeInfo";
 
 const Unstake = () => {
   const [amount, setAmount] = useState("");
   const { smartUser } = useSmartAddress();
+  const { stakedAmount, noPenalty, dayLeft } = useUserStakeInfo();
   const {
     mutate: unstakeMutate,
     isPending,
@@ -47,46 +49,34 @@ const Unstake = () => {
       {
         address: contracts.ECOStaking.address as `0x${string}`,
         abi: contracts.ECOStaking.abi,
-        functionName: "totalStaked",
-      },
-      {
-        address: contracts.ECOStaking.address as `0x${string}`,
-        abi: contracts.ECOStaking.abi,
         functionName: "earlyUnstakePenalty",
-      },
-      {
-        address: contracts.ECOStaking.address as `0x${string}`,
-        abi: contracts.ECOStaking.abi,
-        functionName: "getStakeInfo",
-        args: [smartUser?.user?.smart_address],
-      },
-      {
-        address: contracts.ECOStaking.address as `0x${string}`,
-        abi: contracts.ECOStaking.abi,
-        functionName: "canUnstakeWithoutPenalty",
-        args: [smartUser?.user?.smart_address],
       },
     ],
   });
 
-  const unstakeAmount =
-    unstakeData && unstakeData[0]?.result
-      ? formatUnits(unstakeData[0].result as bigint, 18)
-      : "0";
-
-  const canUnstakeWithoutPenalty =
-    unstakeData && unstakeData[3]?.result ? unstakeData[3]?.result : false;
+  const earlyUnstakePenalty =
+    unstakeData && typeof unstakeData[0]?.result === "bigint"
+      ? Number(unstakeData[0].result.toString()) / 100
+      : "";
 
   const willReceived = !amount
     ? 0.0
-    : canUnstakeWithoutPenalty
+    : noPenalty
     ? parseFloat(amount)
     : parseFloat(amount) - (5 * parseFloat(amount)) / 100;
 
+  const unstakePenaltyAmount = !amount
+    ? 0.0
+    : parseFloat(amount) - willReceived;
+
+  const hasEnoughBalance = useMemo(() => {
+    return stakedAmount && parseFloat(amount) <= parseFloat(stakedAmount);
+  }, [amount, stakedAmount]);
+
   const handleMax = () => {
     // Set the amount to the maximum available balance
-    setAmount(parseInt(unstakeAmount || "") + "");
-    console.log("Max amount set:", unstakeAmount);
+    setAmount(parseInt(stakedAmount || "") + "");
+    console.log("Max amount set:", stakedAmount);
   };
 
   const openStakeConfirmModal = () => {
@@ -97,13 +87,14 @@ const Unstake = () => {
       modal.showModal();
     }
   };
+
   return (
     <div className="w-full">
       <fieldset className="fieldset">
         <div className="fieldset-header flex justify-between">
           <legend className="fieldset-legend">Amount to Unstake</legend>
           <legend className="fieldset-legend">
-            Staked: {unstakeAmount} ECO
+            Staked: {stakedAmount} ECO
           </legend>
         </div>
         <div className="w-full relative">
@@ -127,32 +118,35 @@ const Unstake = () => {
         <div className="flex justify-between text-sm">
           <span className="text-gray-500">You will receive</span>
           <span className="font-semibold text-emerald-600">
-            {willReceived.toFixed(6) || "0.00"}
+            {willReceived.toFixed(6) || "0.00"} ECO
           </span>
         </div>
         <div className="flex justify-between text-sm">
-          <span className="text-gray-500">Early Unstake Penalty</span>
+          <span className="text-gray-500">
+            Early Unstake Penalty ({earlyUnstakePenalty}%)
+          </span>
           <span className="font-semibold text-gray-200">
-            {unstakeData && typeof unstakeData[1]?.result === "bigint"
-              ? Number(unstakeData[1].result.toString()) / 100
-              : ""}
-            %
+            {unstakePenaltyAmount.toFixed(6)} ECO
           </span>
         </div>
         <div className="flex justify-between text-sm">
           <span className="text-gray-500">Status</span>
-          <span className="font-semibold text-gray-200">4 days remaining</span>
+          <span className="font-semibold text-gray-200">
+            {dayLeft} days remaining
+          </span>
         </div>
       </div>
 
       <button
-        disabled={isPending || !amount}
+        disabled={isPending || !amount || !hasEnoughBalance}
         onClick={openStakeConfirmModal}
         className="btn bg-neutral w-full"
       >
         {isPending && <BtnLoading />}
         {amount && parseFloat(amount) > 0
-          ? canUnstakeWithoutPenalty
+          ? !hasEnoughBalance
+            ? "Insufficient Balance"
+            : noPenalty
             ? `Unstake ${amount} ECO`
             : `Unstake with Penalty`
           : "Enter Amount to Untake"}

@@ -10,33 +10,29 @@ import User from "@/model/User";
 export async function POST(request: NextRequest) {
   const userHeader = request.headers.get("x-user");
   if (!userHeader)
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json(
+      { error: "Unauthorized", isSuccess: false },
+      { status: 401 }
+    );
 
   // Parse the incoming form data
   const formData = await request.formData();
   const file = formData.get("image") as File | null;
   if (!file) {
     return NextResponse.json(
-      { message: "No image file found" },
+      { error: "No image file found", isSuccess: false },
       { status: 400 }
     );
   }
-  const fileName = `${Date.now()}-${file.name.replaceAll(" ", "_")}`;
-  const uploadDir = path.join(process.cwd(), "public", "uploads");
-
   // Try catch block to handle file saving and AI verification
   try {
     await dbConnect();
     const { userId } = JSON.parse(userHeader);
-    const arrayBuffer = await file.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
-    const filePath = path.join(uploadDir, fileName);
-    await writeFile(filePath, buffer);
 
-    const verifyProof = await aiVerification(filePath);
+    const verifyProof = await aiVerification(file);
     if (!verifyProof) {
       return NextResponse.json(
-        { message: "No proof available" },
+        { error: "No proof available", isSuccess: false },
         { status: 400 }
       );
     }
@@ -44,7 +40,7 @@ export async function POST(request: NextRequest) {
     const aiResponse = parseAiResponse(verifyProof); // Parse the AI response
     if (!aiResponse?.is_recycle) {
       return NextResponse.json(
-        { message: "No proof available" },
+        { error: "No proof available", isSuccess: false },
         { status: 400 }
       );
     }
@@ -53,37 +49,41 @@ export async function POST(request: NextRequest) {
       const user = await User.findOne({ userId });
       if (!user || !user.smart_address) {
         return NextResponse.json(
-          { message: "User not found or smart address missing" },
+          {
+            error: "User not found or smart address missing",
+            isSuccess: false,
+          },
           { status: 400 }
         );
       }
       const hash = await sendReward(user.smart_address);
       console.log("Reward tx hash: ", hash);
       return NextResponse.json(
-        { message: aiResponse, hash: hash },
+        { message: aiResponse, hash: hash, isSuccess: true },
         { status: 200 }
       );
     }
     if (aiResponse?.is_recycle === "no") {
       return NextResponse.json(
-        { message: aiResponse, hash: null },
+        {
+          message: aiResponse,
+          hash: null,
+          isSuccess: false,
+          error: "You are not recycling!",
+        },
         { status: 200 }
       );
     }
 
     return NextResponse.json(
-      { message: "Could not verify image" },
+      { error: "Could not verify image", isSuccess: false },
       { status: 400 }
     );
   } catch (error) {
     console.error("Error saving file:", error);
     return NextResponse.json(
-      { message: "Failed verify image!" },
+      { error: "Failed verify image!", isSuccess: false },
       { status: 500 }
     );
-  } finally {
-    // Clean up the uploaded file
-    await unlink(path.join(uploadDir, fileName));
-    console.log("Temporary file deleted:", fileName);
   }
 }

@@ -26,12 +26,12 @@ const RecycleImage = () => {
         fileInputRef.current.files = null;
       }
       setFileUrl("");
-      if (data?.hash) {
+      if (data.isSuccess && data?.hash) {
         toast.success("Verified! Reward sent to your wallet.", {
           position: "top-right",
         });
       } else {
-        toast.error("Not verified! Please try again.", {
+        toast.error(data?.error || "Not verified! Please try again.", {
           position: "top-right",
         });
       }

@@ -17,7 +17,7 @@ const AppHeader = () => {
   return (
     <div className="navbar bg-base-200 shadow-sm">
       <div className="navbar-start">
-        <div className="dropdown md:hidden">
+        <div className="dropdown lg:hidden">
           <label htmlFor="my-drawer-2" className="btn btn-ghost btn-circle">
             <svg
               xmlns="http://www.w3.org/2000/svg"

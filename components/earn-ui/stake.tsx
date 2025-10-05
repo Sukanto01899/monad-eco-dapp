@@ -3,7 +3,7 @@ import contracts from "@/contracts/abi/abi";
 import { stakeApi } from "@/endpoints/authApi";
 import useSmartAddress from "@/hooks/useSmartAddress";
 import { useMutation } from "@tanstack/react-query";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useBalance, useReadContracts } from "wagmi";
 import Modal from "../common/modal";
 import ConfirmModal from "./confirm-modal";
@@ -63,11 +63,22 @@ const Stake = () => {
     token: contracts.EcoReward.address as `0x${string}`,
   });
 
+  const hasEnoughBalance = useMemo(() => {
+    return (
+      balanceData && parseFloat(amount) <= parseFloat(balanceData?.formatted)
+    );
+  }, [amount, balanceData]);
+
+  const estimatedDailyRewards = !amount
+    ? 0.0
+    : parseFloat(amount) * 0.01 * (1 / 365);
+
   const handleMax = () => {
     // Set the amount to the maximum available balance
     setAmount(parseInt(balanceData?.formatted || "") + "");
     console.log("Max amount set:", balanceData?.formatted);
   };
+  console.log(hasEnoughBalance);
 
   const openStakeConfirmModal = () => {
     const modal = document.getElementById(
@@ -121,7 +132,9 @@ const Stake = () => {
 
         <div className="flex justify-between text-sm">
           <span className="text-gray-500">Estimated Daily Rewards</span>
-          <span className="font-semibold text-gray-200">7 ECO</span>
+          <span className="font-semibold text-gray-200">
+            {estimatedDailyRewards.toFixed(6)} ECO
+          </span>
         </div>
         <div className="flex justify-between text-sm">
           <span className="text-gray-500">Minimum Lock Period</span>
@@ -135,13 +148,15 @@ const Stake = () => {
       </div>
 
       <button
-        disabled={!amount || isPending}
+        disabled={!amount || isPending || !hasEnoughBalance}
         onClick={() => openStakeConfirmModal()}
         className="btn bg-neutral w-full"
       >
         {isPending && <BtnLoading />}
         {amount && parseFloat(amount) > 0
-          ? `Stake ${amount} ECO`
+          ? !hasEnoughBalance
+            ? "Insufficient Balance"
+            : `Stake ${amount} ECO`
           : "Enter Amount to Stake"}
       </button>
       {isError && <p className="text-red-500 mt-2">{error?.message}</p>}

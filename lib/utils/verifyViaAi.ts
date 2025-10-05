@@ -19,14 +19,14 @@ Be concise and factual. If you cannot decide, set is_recycle to "uncertain" and 
 
 `;
 
-async function aiVerification(path: string) {
+async function aiVerification(file: File) {
   const MAX_RETRIES = 5;
   let attempt = 0;
   while (attempt < MAX_RETRIES) {
     attempt++;
     try {
       const image = await ai.files.upload({
-        file: path,
+        file: file,
       });
       const response = await ai.models.generateContent({
         model: "gemini-2.5-flash",
