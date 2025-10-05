@@ -11,7 +11,7 @@ const UserWallet = () => {
 
   return (
     <dialog id="wallet_modal" className="modal modal-bottom sm:modal-middle">
-      <div className="modal-box">
+      <div className="modal-box bg-base-300">
         <form method="dialog">
           <button
             onClick={() => setTimeout(() => setStep("balance"), 300)}

@@ -17,7 +17,7 @@ const Header = () => {
     }
   };
   return (
-    <div className="fixed w-full navbar bg-base-100 shadow-sm">
+    <div className="fixed w-full navbar bg-transparent">
       <div className="navbar-start">
         <Link href="/" className="btn btn-ghost text-xl">
           MonadEco

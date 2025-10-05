@@ -76,7 +76,7 @@ const RecycleImage = () => {
       onSubmit={handleUploadAndVerify}
       className="card bg-base-300 rounded-box grid grow place-items-center py-6"
     >
-      <div className="card bg-base-100 w-96 shadow-sm">
+      <div className="card bg-base-100 w-80 lg:w-96 shadow-sm">
         <figure
           className="bg-base-200 w-full h-60 relative border border-dashed border-white cursor-pointer"
           onClick={handleSelectFile}
@@ -99,7 +99,7 @@ const RecycleImage = () => {
       <button
         disabled={isPending}
         onClick={handleUploadAndVerify}
-        className="btn btn-lg btn-wide mt-4 bg-accent"
+        className="btn btn-lg btn-wide mt-4 bg-neutral"
       >
         {isPending && <BtnLoading />}
         Submit proof

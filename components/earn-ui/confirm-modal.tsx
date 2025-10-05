@@ -29,7 +29,7 @@ const ConfirmModal = ({
       id={modalName || "confirm_modal"}
       className="modal modal-bottom sm:modal-middle"
     >
-      <div className="modal-box space-y-4">
+      <div className="modal-box space-y-4 bg-base-300">
         <h3 className="font-bold text-lg">{title}</h3>
         <p className="py-4">{message}</p>
         <div className="modal-action flex gap-4 justify-between">
@@ -37,7 +37,7 @@ const ConfirmModal = ({
             {/* if there is a button in form, it will close the modal */}
             <button className="btn btn-error">Close</button>
           </form>
-          <button className="btn btn-info" onClick={handleConfirm}>
+          <button className="btn btn-neutral" onClick={handleConfirm}>
             Confirm
           </button>
         </div>
