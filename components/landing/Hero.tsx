@@ -1,21 +1,8 @@
 "use client";
-import useAuth from "@/hooks/useAuth";
-import { useRouter } from "next/navigation";
 import React from "react";
+import AuthBtn from "../common/AuthBtn";
 
 const Hero = () => {
-  const { login, isReady, isAuthenticated } = useAuth();
-  const router = useRouter();
-
-  const handleOpenApp = () => {
-    if (!isReady) return;
-    if (isAuthenticated) {
-      router.push("/dashboard");
-    } else {
-      login();
-    }
-  };
-
   return (
     <div
       className="hero min-h-screen"
@@ -28,7 +15,7 @@ const Hero = () => {
       <div className="hero-content text-center">
         <div className="max-w-md lg:max-w-lg xl:max-w-xl">
           <h1 className="text-5xl font-bold">
-            A Gamified sustainability dApp <br /> built on the{" "}
+            A Gamified sustainability dApp <br /> on{" "}
             <span className="text-primary">Monad</span>
           </h1>
           <p className="py-6">
@@ -37,13 +24,7 @@ const Hero = () => {
             verifying real-life eco-friendly actions such as recycling, walking,
             or using public transport.
           </p>
-          <button
-            disabled={!isReady}
-            onClick={handleOpenApp}
-            className="btn btn-primary"
-          >
-            {isAuthenticated ? "Open App" : "Get Started"}
-          </button>
+          <AuthBtn>Get Started</AuthBtn>
         </div>
       </div>
     </div>

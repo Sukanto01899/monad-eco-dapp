@@ -1,21 +1,8 @@
-"use client";
-import useAuth from "@/hooks/useAuth";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import React from "react";
+import AuthBtn from "../common/AuthBtn";
 
 const Header = () => {
-  const { login, isReady, isAuthenticated } = useAuth();
-  const router = useRouter();
-
-  const handleOpenApp = () => {
-    if (!isReady) return;
-    if (isAuthenticated) {
-      router.push("/dashboard");
-    } else {
-      login();
-    }
-  };
   return (
     <div className="fixed w-full navbar bg-transparent">
       <div className="navbar-start">
@@ -47,9 +34,7 @@ const Header = () => {
         </ul>
       </div> */}
       <div className="navbar-end">
-        <button disabled={!isReady} onClick={handleOpenApp} className="btn">
-          {isAuthenticated ? "Open app" : "Login"}
-        </button>
+        <AuthBtn>Login</AuthBtn>
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import { FaCoins, FaRecycle } from "react-icons/fa";
-import { MdOutlineDashboardCustomize } from "react-icons/md";
+import { MdOutlineDashboardCustomize, MdTrendingUp } from "react-icons/md";
 
 export const action_items = [
   {
@@ -9,5 +9,6 @@ export const action_items = [
     id: 1,
   },
   { name: "Recycling", route: "/recycling", Icon: FaRecycle, id: 2 },
-  { name: "Earn", route: "/earn", Icon: FaCoins, id: 6 },
+  { name: "Earn", route: "/earn", Icon: FaCoins, id: 3 },
+  { name: "Leaderboard", route: "/leaderboard", Icon: MdTrendingUp, id: 4 },
 ];

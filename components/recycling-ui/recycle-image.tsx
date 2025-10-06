@@ -76,6 +76,7 @@ const RecycleImage = () => {
       onSubmit={handleUploadAndVerify}
       className="card bg-base-300 rounded-box grid grow place-items-center py-6"
     >
+      <p>Submit you proof here</p>
       <div className="card bg-base-100 w-80 lg:w-96 shadow-sm">
         <figure
           className="bg-base-200 w-full h-60 relative border border-dashed border-white cursor-pointer"
