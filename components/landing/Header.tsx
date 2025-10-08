@@ -7,7 +7,7 @@ const Header = () => {
     <div className="fixed w-full navbar bg-transparent">
       <div className="navbar-start">
         <Link href="/" className="btn btn-ghost text-xl">
-          MonadEco
+          ECOReward
         </Link>
       </div>
       {/* <div className="navbar-center hidden lg:flex">

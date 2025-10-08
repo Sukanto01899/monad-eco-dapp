@@ -13,7 +13,6 @@ export function useRewardDistributor() {
       const data = await envioClient.request<ActionsResponse>(GET_ACTIONS);
       return data?.EcoRewardDistributor_RewardDistributed;
     },
-    refetchInterval: 10000, // every 5 sec auto refresh
   });
 }
 export function useGetUserTotalProof(address: `0x${string}`) {
@@ -25,6 +24,5 @@ export function useGetUserTotalProof(address: `0x${string}`) {
       );
       return data?.EcoRewardDistributor_RewardDistributed;
     },
-    refetchInterval: 5000, // every 5 sec auto refresh
   });
 }

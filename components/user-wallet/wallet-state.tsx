@@ -3,11 +3,12 @@ import React, { useState } from "react";
 import TotalBalance from "./total-balance";
 import SendToken from "./send-token";
 import SendSuccess from "./send-success";
+import DepositToken from "./deposit-token";
 
 type WalletStateProps = {
   smartAddress: `0x${string}`;
-  step: "balance" | "send" | "status";
-  setStep: (step: "balance" | "send" | "status") => void;
+  step: "balance" | "send" | "status" | "deposit";
+  setStep: (step: "balance" | "send" | "status" | "deposit") => void;
 };
 
 const WalletState = ({ smartAddress, step, setStep }: WalletStateProps) => {
@@ -25,6 +26,13 @@ const WalletState = ({ smartAddress, step, setStep }: WalletStateProps) => {
         />
       )}
       {step === "status" && <SendSuccess txHash={txHash} setStep={setStep} />}
+      {step === "deposit" && (
+        <DepositToken
+          smartAddress={smartAddress}
+          setTxHash={setTxHash}
+          setStep={setStep}
+        />
+      )}
     </>
   );
 };

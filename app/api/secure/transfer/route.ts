@@ -1,3 +1,4 @@
+import tokens from "@/data/tokens";
 import dbConnect from "@/lib/config/dbConnect";
 import { transferDelegationRedeem } from "@/lib/utils/redeemDelegation";
 import User from "@/model/User";
@@ -14,9 +15,18 @@ export const POST = async (request: Request) => {
   try {
     await dbConnect();
     const { userId } = JSON.parse(userHeader);
-    const { recipientAddress, amount } = await request.json();
+    const { recipientAddress, amount, token } = await request.json();
+    console.log({ token, amount });
+    const tokenContract = tokens.find((t) => t.code === token)?.address;
     const user = await User.findOne({ userId });
-    if (!user || !user.signDelegation || !recipientAddress || !amount) {
+    if (
+      !user ||
+      !user.signDelegation ||
+      !recipientAddress ||
+      !amount ||
+      !token ||
+      !tokenContract
+    ) {
       return NextResponse.json(
         { error: "Input data not found!", isSuccess: false },
         { status: 404 }
@@ -25,6 +35,7 @@ export const POST = async (request: Request) => {
     const transactionHash = await transferDelegationRedeem(
       recipientAddress,
       amount,
+      tokenContract as `0x${string}`,
       user.signDelegation
     );
     return NextResponse.json(

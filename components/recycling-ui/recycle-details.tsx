@@ -1,26 +1,26 @@
 import React from "react";
 
 type RecycleDetailsProps = {
-  is_recycle: string;
-  confidence?: number;
+  action: string;
+  proofStatus?: string;
   hash?: string;
   proof_extracts?: string;
   reasons: string[];
 };
 
 const RecycleDetails = ({
-  is_recycle,
-  confidence,
+  action,
+  proofStatus,
   hash,
   proof_extracts,
   reasons,
 }: RecycleDetailsProps) => {
   return (
     <div className="card bg-base-300 rounded-box grid h-20 grow place-items-center mt-4">
-      <h2 className={is_recycle === "yes" ? "text-green-500" : "text-red-500"}>
-        {is_recycle === "yes" ? "Recycling successful!" : "No recycling."}
+      <h2 className="capitalize">
+        Action: <span className="text-green-500">{action}</span>
       </h2>
-      {confidence && <p className="text-sm">Confidence: {confidence}</p>}
+      {proofStatus && <p className="text-sm">Proof: {proofStatus}</p>}
 
       {hash && (
         <p className="text-sm">

@@ -19,7 +19,11 @@ const AuthBtn = ({
     }
   };
   return (
-    <button disabled={!isReady} onClick={handleOpenApp} className="btn">
+    <button
+      disabled={!isReady}
+      onClick={handleOpenApp}
+      className="btn bg-primary"
+    >
       {isAuthenticated ? "Open app" : children}
     </button>
   );

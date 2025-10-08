@@ -6,6 +6,7 @@ import useSmartAccount from "./useSmartAccount";
 import contracts from "@/contracts/abi/abi";
 import { parseEther, zeroAddress } from "viem";
 import { usePimlicoServices } from "./usePimlicoServices";
+import tokens from "@/data/tokens";
 
 const useCreateDelegation = () => {
   const [isDeploying, setIsDeploying] = useState(false);
@@ -51,6 +52,7 @@ const useCreateDelegation = () => {
       ) {
         throw new Error("Delegator smart account not found");
       }
+      const allTokens = tokens.map((t) => t.address as `0x${string}`);
       const delegation = createDelegation({
         to: process.env.NEXT_PUBLIC_PLATFORM_SMART_ADDRESS as `0x${string}`,
         from: delegatorSmartAccount.address,
@@ -58,8 +60,8 @@ const useCreateDelegation = () => {
         scope: {
           type: "functionCall",
           targets: [
-            contracts.EcoReward.address as `0x${string}`,
             contracts.ECOStaking.address as `0x${string}`,
+            ...allTokens,
           ],
           selectors: [
             "approve(address, uint256)",

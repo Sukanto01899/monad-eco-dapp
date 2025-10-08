@@ -1,49 +1,33 @@
+import { faqs } from "@/data/faq";
 import React from "react";
+import AuthBtn from "../common/AuthBtn";
 
 const How = () => {
   return (
     <div className="hero bg-base-200 max-h-screen py-8 lg:py-14">
       <div className="hero-content flex-col lg:flex-row-reverse">
         <div>
-          <h1 className="text-5xl font-bold">Box Office News!</h1>
+          <h1 className="text-3xl lg:text-4xl font-bold">
+            Frequently Asked Questions
+          </h1>
           <p className="py-6">
-            Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
-            excepturi exercitationem quasi. In deleniti eaque aut repudiandae et
-            a id nisi.
+            Learn how to earn, stake, and manage your ECO tokens while
+            contributing to a sustainable future.
           </p>
-          <button className="btn btn-primary">Get Started</button>
+          <AuthBtn>Get Started</AuthBtn>
         </div>
         {/* Acc */}
         <div>
-          <div className="collapse collapse-arrow bg-base-100 border border-base-300">
-            <input type="radio" name="my-accordion-2" defaultChecked />
-            <div className="collapse-title font-semibold">
-              How do I create an account?
+          {faqs.map((faq, i) => (
+            <div
+              key={i}
+              className="collapse collapse-arrow bg-base-100 border border-base-300"
+            >
+              <input type="radio" name="my-accordion-2" defaultChecked />
+              <div className="collapse-title font-semibold">{faq.question}</div>
+              <div className="collapse-content text-sm">{faq.answer}</div>
             </div>
-            <div className="collapse-content text-sm">
-              Click the Sign Up button in the top right corner and follow the
-              registration process.
-            </div>
-          </div>
-          <div className="collapse collapse-arrow bg-base-100 border border-base-300">
-            <input type="radio" name="my-accordion-2" />
-            <div className="collapse-title font-semibold">
-              I forgot my password. What should I do?
-            </div>
-            <div className="collapse-content text-sm">
-              Click on Forgot Password on the login page and follow the
-              instructions sent to your email.
-            </div>
-          </div>
-          <div className="collapse collapse-arrow bg-base-100 border border-base-300">
-            <input type="radio" name="my-accordion-2" />
-            <div className="collapse-title font-semibold">
-              How do I update my profile information?
-            </div>
-            <div className="collapse-content text-sm">
-              Go to My Account settings and select Edit Profile to make changes.
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </div>

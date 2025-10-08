@@ -1,3 +1,4 @@
+import { DonateDataType } from "@/types/type";
 import { authApi } from "./intance";
 
 export const saveUserApi = async (
@@ -35,9 +36,14 @@ export const unstakeApi = async (amount: string) => {
 };
 export const transferApi = async (
   recipientAddress: `0x${string}`,
-  amount: string
+  amount: string,
+  token: string
 ) => {
-  const res = await authApi.post("/transfer", { recipientAddress, amount });
+  const res = await authApi.post("/transfer", {
+    recipientAddress,
+    amount,
+    token,
+  });
   return res.data;
 };
 export const claimRewardsApi = async () => {
@@ -46,6 +52,14 @@ export const claimRewardsApi = async () => {
 };
 export const claimDailyApi = async () => {
   const res = await authApi.post("/claim-daily");
-  console.log(res);
+  return res.data;
+};
+export const donateApi = async (donateData: DonateDataType) => {
+  const res = await authApi.post("/donate", { ...donateData });
+  return res.data;
+};
+export const getDonationsApi = async () => {
+  const res = await authApi.get("/donate");
+  console.log(res)
   return res.data;
 };

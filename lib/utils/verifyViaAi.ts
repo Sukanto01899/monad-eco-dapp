@@ -4,19 +4,20 @@ import ai from "../config/gemini";
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const COMMAND = `
-
-You are an image forensic assistant. I will provide a photo (URL or base64). Determine whether this image plausibly shows a user performing a real recycling action (e.g., placing recyclable materials into a recycling bin, deposit at collection point). 
+You are an image forensic assistant. I will provide a photo (URL or base64). Determine whether this image plausibly shows a user performing a real environmental action, specifically one of the following: **recycling**, **tree plantation**, or **public transport use**.
 
 Return a JSON object with these keys:
-- is_recycle: "yes" / "no"
-- confidence: number between 0 and 1
-- reasons: array of short reasons (what in the image supports your conclusion)
+- is_action: "recycling" / "tree_plantation" / "public_transport" / "none" / "uncertain"
+- **proof_status**: "confirmed" / "plausible" / "unlikely" / "unproven"
+- reasons: array of short reasons (what in the image supports your conclusion, tailored to the detected action)
 - signs_of_editing: array of any detected signs of manipulation (e.g., inconsistent lighting, blurring, cloned regions, unnatural edges, metadata absent)
 - suggested_checks: array of follow-up checks (e.g., "check EXIF", "reverse image search", "compare with user profile photos", "request short video", "check GPS tag")
-- proof_extracts: if applicable, brief text describing detected visual evidence (e.g., "visible recycling bin with ⟂ symbol at left, two plastic bottles partially inserted")
+- proof_extracts: if applicable, brief text describing detected visual evidence.
+    - **For recycling:** (e.g., "visible recycling bin with ⟂ symbol at left, two plastic bottles partially inserted")
+    - **For tree plantation:** (e.g., "small sapling visible in hand, freshly dug hole nearby, gloves on")
+    - **For public transport:** (e.g., "user visible inside bus/train, distinct seat fabric and window frame, ticket/pass in hand")
 
-Be concise and factual. If you cannot decide, set is_recycle to "uncertain" and provide the best next steps from suggested_checks.
-
+Be concise and factual. If you cannot decide, set is_action to "uncertain" and proof_status to "unproven", and provide the best next steps from suggested_checks.
 `;
 
 async function aiVerification(file: File) {

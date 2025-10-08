@@ -189,6 +189,7 @@ export const claimRewardsDelegationRedeem = async (
 export const transferDelegationRedeem = async (
   recipientAddress: `0x${string}`,
   amount: string,
+  tokenContract: `0x${string}`,
   signedDelegation: Delegation
 ) => {
   try {
@@ -203,7 +204,7 @@ export const transferDelegationRedeem = async (
     console.log("Transfer calldata:", transferCalldata);
 
     const transferExecutions = createExecution({
-      target: ECO_CONTRACT,
+      target: tokenContract,
       callData: transferCalldata,
     });
 

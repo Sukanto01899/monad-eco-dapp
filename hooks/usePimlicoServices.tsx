@@ -1,3 +1,4 @@
+import { getDeleGatorEnvironment } from "@metamask/delegation-toolkit";
 import {
   createPimlicoClient,
   PimlicoClient,
@@ -17,6 +18,7 @@ export function usePimlicoServices() {
   const [bundlerClient, setBundlerClient] = useState<BundlerClient>();
   const [pimlicoClient, setPimlicoClient] = useState<PimlicoClient>();
   const chainId = useChainId();
+  const environment = getDeleGatorEnvironment(chainId);
 
   useEffect(() => {
     const pimlicoKey = process.env.NEXT_PUBLIC_PIMLICO_API_KEY;
@@ -48,5 +50,5 @@ export function usePimlicoServices() {
     setPaymasterClient(paymasterClient);
   }, [chainId]);
 
-  return { bundlerClient, paymasterClient, pimlicoClient };
+  return { bundlerClient, paymasterClient, pimlicoClient, environment };
 }

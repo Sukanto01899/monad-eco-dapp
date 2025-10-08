@@ -22,6 +22,7 @@ const RecycleImage = () => {
       return await verifyImage(formData);
     },
     onSuccess: (data) => {
+      console.log(data);
       if (fileInputRef.current) {
         fileInputRef.current.files = null;
       }
@@ -76,7 +77,6 @@ const RecycleImage = () => {
       onSubmit={handleUploadAndVerify}
       className="card bg-base-300 rounded-box grid grow place-items-center py-6"
     >
-      <p>Submit you proof here</p>
       <div className="card bg-base-100 w-80 lg:w-96 shadow-sm">
         <figure
           className="bg-base-200 w-full h-60 relative border border-dashed border-white cursor-pointer"
@@ -108,8 +108,8 @@ const RecycleImage = () => {
 
       {data && isSuccess && (
         <RecycleDetails
-          is_recycle={data.message.is_recycle}
-          confidence={data.message.confidence}
+          action={data.message.is_action}
+          proofStatus={data.message.proof_status}
           hash={data.hash}
           proof_extracts={data.message.proof_extracts}
           reasons={data.message.reasons}

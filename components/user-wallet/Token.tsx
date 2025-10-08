@@ -4,8 +4,7 @@ import useSmartAddress from "@/hooks/useSmartAddress";
 import React from "react";
 import { useBalance } from "wagmi";
 
-const TokenItem = ({ name, code, address }: Token) => {
-  const { smartAddress: smartAccountAddress } = useSmartAccount();
+const TokenItem = ({ name, code, address, logo }: Token) => {
   const { smartUser } = useSmartAddress();
   const { data } = useBalance({
     address: smartUser?.user?.smart_address as `0x${string}`,
@@ -15,10 +14,7 @@ const TokenItem = ({ name, code, address }: Token) => {
   return (
     <li className="list-row">
       <div>
-        <img
-          className="size-10 rounded-box"
-          src="https://media.istockphoto.com/id/1045368942/vector/abstract-green-leaf-logo-icon-vector-design-ecology-icon-set-eco-icon.jpg?s=612x612&w=0&k=20&c=XIfHMI8r1G73blCpCBFmLIxCtOLx8qX0O3mZC9csRLs="
-        />
+        <img className="size-10 rounded-box" src={logo} />
       </div>
       <div>
         <div>{name}</div>

@@ -1,21 +1,28 @@
 import React from "react";
+import AuthBtn from "../common/AuthBtn";
 
 const About = () => {
   return (
     <div className="hero bg-base-200 py-8 lg:py-14">
       <div className="hero-content flex-col lg:flex-row">
         <img
-          src="https://img.daisyui.com/images/stock/photo-1635805737707-575885ab0820.webp"
+          src="https://cdn.pixabay.com/photo/2021/09/19/18/31/recyclable-6638729_1280.png"
           className="max-w-sm rounded-lg shadow-2xl"
         />
         <div>
-          <h1 className="text-5xl font-bold">What is MonadECO?</h1>
+          <h1 className="text-3xl lg:text-4xl font-bold">About ECOReward</h1>
           <p className="py-6">
-            Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
-            excepturi exercitationem quasi. In deleniti eaque aut repudiandae et
-            a id nisi.
+            EcoReward is a sustainability-driven platform that empowers users to
+            take meaningful eco-friendly actions — such as recycling, planting
+            trees, and using public transport — and get rewarded with ECO
+            tokens. <br /> Our mission is to inspire global environmental
+            responsibility by turning everyday green activities into measurable
+            and rewarding contributions. With features like proof submission,
+            staking, and a community leaderboard, EcoReward combines blockchain
+            transparency with real-world environmental impact. <br /> Join us in
+            building a greener future, one action at a time. 🌍💚
           </p>
-          <button className="btn btn-primary">Get Started</button>
+          <AuthBtn>Get Started</AuthBtn>
         </div>
       </div>
     </div>

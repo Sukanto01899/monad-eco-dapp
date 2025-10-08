@@ -11,7 +11,7 @@ const AppHeader = () => {
   const openWallet = () => {
     const modal = document.getElementById("wallet_modal") as HTMLDialogElement;
     if (modal) {
-      modal.showModal();
+      modal.show();
     }
   };
   return (

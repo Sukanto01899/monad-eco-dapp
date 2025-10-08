@@ -11,7 +11,7 @@ const SendSuccess = ({ setStep, txHash }: SendSuccessProps) => {
     <div className="w-full mt-6">
       <div className="text-center w-full flex flex-col items-center gap-4">
         <FaCheckCircle className="text-green-500 text-8xl" />
-        <h1 className="text-neutral-content">Successfully sent!</h1>
+        <h1 className="text-neutral-content">Transaction Successful!</h1>
         <a
           href={`https://testnet.monadexplorer.com/tx/${txHash}`}
           target="_blank"
