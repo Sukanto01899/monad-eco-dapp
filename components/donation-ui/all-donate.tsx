@@ -3,6 +3,13 @@ import { getDonationsApi } from "@/endpoints/authApi";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import Donate from "./donate";
+import { Delegation } from "@metamask/delegation-toolkit";
+
+type DonateType = {
+  max_amount: number;
+  token: string;
+  signDelegation: Delegation;
+};
 
 const AllDonate = () => {
   const { data: donateData, isLoading } = useQuery({
@@ -21,7 +28,7 @@ const AllDonate = () => {
       ) : (
         donateData &&
         donateData?.donations &&
-        donateData?.donations?.map((donate: any, i: number) => (
+        donateData?.donations?.map((donate: DonateType, i: number) => (
           <Donate key={i} {...donate} />
         ))
       )}

@@ -1,9 +1,18 @@
 import { usePimlicoServices } from "@/hooks/usePimlicoServices";
-import { createCaveatEnforcerClient } from "@metamask/delegation-toolkit";
+import {
+  createCaveatEnforcerClient,
+  Delegation,
+} from "@metamask/delegation-toolkit";
 import React from "react";
 import { usePublicClient } from "wagmi";
 
-const Donate = ({ max_amount, token, signDelegation }: any) => {
+type DonateType = {
+  max_amount: number;
+  token: string;
+  signDelegation: Delegation;
+};
+
+const Donate = ({ max_amount, token, signDelegation }: DonateType) => {
   const { environment } = usePimlicoServices();
   const publicClient = usePublicClient();
 
