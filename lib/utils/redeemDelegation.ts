@@ -17,7 +17,6 @@ import contracts from "@/contracts/abi/abi";
 import { delegateWalletClient } from "./getPlatformSmartAccount";
 
 const STAKING_CONTRACT = contracts.ECOStaking.address as `0x${string}`;
-const ECO_CONTRACT = contracts.EcoReward.address as `0x${string}`;
 
 const publicClient = createPublicClient({
   transport: http(),

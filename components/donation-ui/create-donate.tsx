@@ -4,10 +4,8 @@ import tokens from "@/data/tokens";
 import { donateApi } from "@/endpoints/authApi";
 import useSmartAccount from "@/hooks/useSmartAccount";
 import { DonateDataType } from "@/types/type";
-import { createDelegation } from "@metamask/delegation-toolkit";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React, { useState } from "react";
-import { parseEther } from "viem";
 import Modal from "../common/modal";
 import ConfirmModal from "../earn-ui/confirm-modal";
 import BtnLoading from "../common/btn-loading";
@@ -80,8 +78,10 @@ const CreateDonate = () => {
             className="select w-full"
           >
             <option disabled={true}>Select a token</option>
-            {tokens.map((token) => (
-              <option value={token.code}>{token.code}</option>
+            {tokens.map((token, i) => (
+              <option key={i} value={token.code}>
+                {token.code}
+              </option>
             ))}
           </select>
         </div>

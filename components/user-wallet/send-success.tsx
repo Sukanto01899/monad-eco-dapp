@@ -1,5 +1,5 @@
 import React from "react";
-import { FaAlignRight, FaArrowRight, FaCheckCircle } from "react-icons/fa";
+import { FaArrowRight, FaCheckCircle } from "react-icons/fa";
 
 type SendSuccessProps = {
   setStep: (step: "balance" | "send" | "status") => void;

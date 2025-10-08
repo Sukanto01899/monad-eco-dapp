@@ -11,7 +11,6 @@ const Modal = ({
   const [element, setElement] = useState<Element | null>(null);
 
   useEffect(() => {
-    // এই কাজটা শুধু client side এ হবে
     const modalRoot = document.getElementById("modal-root");
     if (modalRoot) {
       setElement(modalRoot);

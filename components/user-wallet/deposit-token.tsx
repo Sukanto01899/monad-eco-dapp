@@ -1,14 +1,11 @@
 "use client";
 import tokens from "@/data/tokens";
-import useSmartAddress from "@/hooks/useSmartAddress";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { FaArrowDown } from "react-icons/fa";
-import { parseAbi, parseEther, parseUnits } from "viem";
+import { parseUnits } from "viem";
 import {
-  injected,
   useAccount,
-  useConnect,
   usePublicClient,
   useSwitchChain,
   useWriteContract,
@@ -125,8 +122,10 @@ const DepositToken = ({
             className="select w-full"
           >
             <option disabled={true}>Select a token</option>
-            {tokens.map((token) => (
-              <option value={token.code}>{token.code}</option>
+            {tokens.map((token, i) => (
+              <option key={i} value={token.code}>
+                {token.code}
+              </option>
             ))}
           </select>
         </div>

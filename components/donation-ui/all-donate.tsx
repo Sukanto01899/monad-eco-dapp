@@ -3,7 +3,6 @@ import { getDonationsApi } from "@/endpoints/authApi";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import Donate from "./donate";
-import { DonateDataType } from "@/types/type";
 
 const AllDonate = () => {
   const { data: donateData, isLoading } = useQuery({
@@ -22,7 +21,9 @@ const AllDonate = () => {
       ) : (
         donateData &&
         donateData?.donations &&
-        donateData?.donations?.map((donate: any) => <Donate {...donate} />)
+        donateData?.donations?.map((donate: any, i: number) => (
+          <Donate key={i} {...donate} />
+        ))
       )}
     </div>
   );

@@ -97,8 +97,10 @@ const SendToken = ({
             className="select w-full"
           >
             <option disabled={true}>Select a token</option>
-            {tokens.map((token) => (
-              <option value={token.code}>{token.code}</option>
+            {tokens.map((token, i) => (
+              <option key={i} value={token.code}>
+                {token.code}
+              </option>
             ))}
           </select>
         </div>

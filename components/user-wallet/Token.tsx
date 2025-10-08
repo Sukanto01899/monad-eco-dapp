@@ -1,5 +1,4 @@
 import { Token } from "@/data/tokens";
-import useSmartAccount from "@/hooks/useSmartAccount";
 import useSmartAddress from "@/hooks/useSmartAddress";
 import React from "react";
 import { useBalance } from "wagmi";

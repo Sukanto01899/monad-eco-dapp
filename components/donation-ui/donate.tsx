@@ -1,4 +1,3 @@
-import useCreateDonateDelegation from "@/hooks/useCreateDonateDelegation";
 import { usePimlicoServices } from "@/hooks/usePimlicoServices";
 import { createCaveatEnforcerClient } from "@metamask/delegation-toolkit";
 import React from "react";
