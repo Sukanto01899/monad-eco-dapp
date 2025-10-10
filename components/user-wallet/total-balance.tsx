@@ -3,6 +3,7 @@ import WalletTokens from "./wallet-tokens";
 import { useBalance } from "wagmi";
 import contracts from "@/contracts/abi/abi";
 import { FaCopy } from "react-icons/fa";
+import ViewSmartAddress from "./view-smar-address";
 
 type TotalBalanceProps = {
   smartAddress: `0x${string}`;
@@ -23,10 +24,7 @@ const TotalBalance = ({ smartAddress, setStep }: TotalBalanceProps) => {
         </div>
       </div>
 
-      <p className="text-xs flex justify-between items-center text-neutral-content border border-base-100 py-1 px-3 rounded-full">
-        <span>{smartAddress}</span>
-        <FaCopy />
-      </p>
+      <ViewSmartAddress>{smartAddress}</ViewSmartAddress>
 
       <div className="flex w-full gap-2">
         <button onClick={() => setStep("send")} className="btn btn-lg flex-1/2">

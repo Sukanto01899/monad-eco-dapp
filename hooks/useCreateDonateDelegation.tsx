@@ -1,12 +1,13 @@
 import React from "react";
 import useSmartAccount from "./useSmartAccount";
 import { createDelegation } from "@metamask/delegation-toolkit";
-import { parseEther } from "viem";
+import { parseUnits } from "viem";
+import { Token } from "@/data/tokens";
 
 const useCreateDonateDelegation = () => {
   const { getSmartWallet } = useSmartAccount();
 
-  const delegate = async (token: string, amount: string) => {
+  const delegate = async (token: Token, amount: string) => {
     try {
       const smartAccount = await getSmartWallet();
       const delegation = createDelegation({
@@ -15,10 +16,10 @@ const useCreateDonateDelegation = () => {
         environment: smartAccount.environment,
         scope: {
           type: "erc20PeriodTransfer",
-          tokenAddress: token as `0x${string}`,
-          periodAmount: parseEther(amount),
+          tokenAddress: token.address as `0x${string}`,
+          periodAmount: parseUnits(amount, token.decimal),
           periodDuration: 604800,
-          startDate: Date.now() / 1000,
+          startDate: Math.floor(Date.now() / 1000),
         },
       });
       return delegation;
@@ -27,7 +28,7 @@ const useCreateDonateDelegation = () => {
     }
   };
 
-  const signDelegation = async (token: string, amount: string) => {
+  const signDelegation = async (token: Token, amount: string) => {
     try {
       const smartAccount = await getSmartWallet();
       const delegation = await delegate(token, amount);

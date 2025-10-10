@@ -12,9 +12,9 @@ const Hero = () => {
       }}
     >
       <div className="hero-overlay"></div>
-      <div className="hero-content text-center">
-        <div className="max-w-md lg:max-w-lg xl:max-w-xl">
-          <h1 className="text-5xl font-bold">
+      <div className="hero-content flex-col lg:flex-row items-center  pt-24 lg:pt-0">
+        <div className="text-center lg:text-left">
+          <h1 className="text-4xl lg:text-5xl font-bold">
             A Gamified sustainability dApp <br /> on{" "}
             <span className="text-primary">Monad</span>
           </h1>
@@ -26,6 +26,8 @@ const Hero = () => {
           </p>
           <AuthBtn>Get Started</AuthBtn>
         </div>
+
+        <img src="/banner.png" className="max-w-md rounded-lg" />
       </div>
     </div>
   );

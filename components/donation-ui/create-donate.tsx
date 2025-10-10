@@ -43,10 +43,10 @@ const CreateDonate = () => {
     const token = tokens.find((t) => t.code === selectedToken);
     if (!token) return;
     try {
-      const signedDelegation = await signDelegation(token.address, amount);
+      const signedDelegation = await signDelegation(token, amount);
 
       donateMutate({
-        token: token.name,
+        token: token.code,
         address: token.address as `0x${string}`,
         signDelegation: signedDelegation,
         amount,

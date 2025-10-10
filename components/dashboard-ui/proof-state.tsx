@@ -10,7 +10,7 @@ const ProofState = () => {
   return (
     <div className="card bg-base-300 image-full w-96 shadow-sm">
       <div className="card-body">
-        <div className="stat-title">Your Verified Proofs</div>
+        <h2 className="card-title">Your Verified Proofs</h2>
         <div className="stat-value">{data?.length}</div>
         <div className="stat-desc">Total earned {data?.length * 100} ECO</div>
       </div>

@@ -8,7 +8,7 @@ const StakingDetails = () => {
   return (
     <div className="card bg-base-300 image-full w-96 shadow-sm">
       <div className="card-body">
-        <div className="stat-title">Your Total Stake</div>
+        <h2 className="card-title">Your Total Staking</h2>
         <div className="stat-value">{stakedAmount.slice(0, 6)} ECO</div>
         <div className="stat-desc">
           Total pending{" "}

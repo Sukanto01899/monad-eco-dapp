@@ -13,13 +13,13 @@ const TokenItem = ({ name, code, address, logo }: Token) => {
   return (
     <li className="list-row">
       <div>
-        <img className="size-10 rounded-box" src={logo} />
+        <img className="size-10 rounded-full" src={logo} />
       </div>
       <div>
         <div>{name}</div>
         <div className="text-xs uppercase font-semibold opacity-60">{code}</div>
       </div>
-      <div className="text-xs uppercase font-semibold opacity-60">
+      <div className="text-xl uppercase font-semibold opacity-60">
         {data?.formatted.slice(0, 8)}
       </div>
     </li>

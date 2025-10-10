@@ -13,6 +13,7 @@ import {
 import BtnLoading from "../common/btn-loading";
 import { monadTestnet } from "viem/chains";
 import { useConnectWallet, useWallets } from "@privy-io/react-auth";
+import ViewSmartAddress from "./view-smar-address";
 
 // 2. Define the minimal ERC-20 ABI for the 'transfer' function
 const transferAbi = [
@@ -161,11 +162,19 @@ const DepositToken = ({
             Connect
           </button>
         )}
+
+        <button
+          onClick={() => setStep("balance")}
+          className="btn btn-ghost text-red-500 mt-2"
+        >
+          Cancel
+        </button>
       </fieldset>
 
-      <p className="text-center text-sm">
-        EOA <span className="font-bold">{address}</span>
-      </p>
+      <div className="flex flex-col items-center gap-2 mt-4">
+        <h3 className="text-sm font-bold">Or send to this address</h3>
+        <ViewSmartAddress>{smartAddress}</ViewSmartAddress>
+      </div>
     </div>
   );
 };

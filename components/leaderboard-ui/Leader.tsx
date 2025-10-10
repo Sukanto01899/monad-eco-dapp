@@ -25,10 +25,7 @@ const Leader: React.FC<LeaderComponentProps> = ({ user, index }) => {
       <th>{index + 1}</th>
       <td>
         {account?.user.slice(0, 6)}...
-        {account?.user.slice(
-          account?.user.length - 6,
-          account?.user.length - 1
-        )}
+        {account?.user.slice(account?.user.length - 5, account?.user.length)}
       </td>
       <td>{total_proof * 100}</td>
       <td>{total_proof}</td>
