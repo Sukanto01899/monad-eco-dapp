@@ -4,6 +4,7 @@ import {
   http,
   parseAbi,
   parseEther,
+  parseUnits,
 } from "viem";
 import { DelegationManager } from "@metamask/delegation-toolkit/contracts";
 import {
@@ -189,7 +190,8 @@ export const transferDelegationRedeem = async (
   recipientAddress: `0x${string}`,
   amount: string,
   tokenContract: `0x${string}`,
-  signedDelegation: Delegation
+  signedDelegation: Delegation,
+  decimal: number
 ) => {
   try {
     const delegations = [signedDelegation];
@@ -197,7 +199,7 @@ export const transferDelegationRedeem = async (
     const transferCalldata = encodeFunctionData({
       abi: parseAbi(["function transfer(address,uint256)"]),
       functionName: "transfer",
-      args: [recipientAddress, parseEther(amount)],
+      args: [recipientAddress, parseUnits(amount, decimal)],
     });
 
     console.log("Transfer calldata:", transferCalldata);

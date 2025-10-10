@@ -28,10 +28,7 @@ const UserBar = () => {
     <div className="flex items-center justify-between bg-base-300 backdrop-blur-md p-2 rounded-md">
       <div className="flex items-center gap-2">
         <div>
-          <img
-            className="size-10 rounded-box"
-            src="https://img.daisyui.com/images/profile/demo/1@94.webp"
-          />
+          <img className="size-10 rounded-box" src="/logo.png" />
         </div>
         <div>
           <div>{chain[0].name}</div>

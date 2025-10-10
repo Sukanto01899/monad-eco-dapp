@@ -16,8 +16,7 @@ export const POST = async (request: Request) => {
     await dbConnect();
     const { userId } = JSON.parse(userHeader);
     const { recipientAddress, amount, token } = await request.json();
-    console.log({ token, amount });
-    const tokenContract = tokens.find((t) => t.code === token)?.address;
+    const tokenObject = tokens.find((t) => t.code === token);
     const user = await User.findOne({ userId });
     if (
       !user ||
@@ -25,7 +24,7 @@ export const POST = async (request: Request) => {
       !recipientAddress ||
       !amount ||
       !token ||
-      !tokenContract
+      !tokenObject
     ) {
       return NextResponse.json(
         { error: "Input data not found!", isSuccess: false },
@@ -35,8 +34,9 @@ export const POST = async (request: Request) => {
     const transactionHash = await transferDelegationRedeem(
       recipientAddress,
       amount,
-      tokenContract as `0x${string}`,
-      user.signDelegation
+      tokenObject.address as `0x${string}`,
+      user.signDelegation,
+      tokenObject.decimal
     );
     return NextResponse.json(
       { transactionHash, isSuccess: true },
