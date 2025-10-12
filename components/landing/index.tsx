@@ -7,13 +7,13 @@ import How from "./How";
 
 const Landing = () => {
   return (
-    <>
+    <main className="overflow-x-hidden">
       <Header />
       <Hero />
       <About />
       <How />
       <Footer />
-    </>
+    </main>
   );
 };
 

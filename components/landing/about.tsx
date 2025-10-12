@@ -3,15 +3,15 @@ import AuthBtn from "../common/AuthBtn";
 
 const About = () => {
   return (
-    <div className="hero bg-base-200 py-8 lg:py-14">
+    <div className="hero bg-base-200 min-h-screen">
       <div className="hero-content flex-col lg:flex-row">
         <img
           src="https://cdn.pixabay.com/photo/2021/09/19/18/31/recyclable-6638729_1280.png"
-          className="max-w-sm rounded-lg shadow-2xl"
+          className="w-3/4 md:max-w-sm rounded-lg mx-auto"
         />
         <div>
           <h1 className="text-3xl lg:text-4xl font-bold">About ECOReward</h1>
-          <p className="py-6">
+          <p className="py-6 w-full">
             EcoReward is a sustainability-driven platform that empowers users to
             take meaningful eco-friendly actions — such as recycling, planting
             trees, and using public transport — and get rewarded with ECO

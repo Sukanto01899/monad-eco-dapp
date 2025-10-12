@@ -12,7 +12,7 @@ const ViewSmartAddress = ({ children }: { children: string }) => {
   };
   return (
     <p className="text-xs flex justify-between items-center text-neutral-content bg-base-100 py-2 px-3 rounded-full">
-      <span className="tracking-widest">{children}</span>
+      <span className="lg:tracking-widest">{children}</span>
       <FaCopy
         onClick={() => handleCopy(children)}
         className="text-2xl p-1 hover:bg-base-200 rounded-full cursor-pointer"

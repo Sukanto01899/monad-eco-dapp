@@ -4,7 +4,7 @@ import AuthBtn from "../common/AuthBtn";
 
 const How = () => {
   return (
-    <div className="hero bg-base-200 max-h-screen py-8 lg:py-14">
+    <div className="hero bg-base-200 min-h-screen">
       <div className="hero-content flex-col lg:flex-row-reverse">
         <div>
           <h1 className="text-3xl lg:text-4xl font-bold">

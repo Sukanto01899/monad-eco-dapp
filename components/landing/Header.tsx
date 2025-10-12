@@ -4,7 +4,7 @@ import AuthBtn from "../common/AuthBtn";
 
 const Header = () => {
   return (
-    <div className="fixed w-full navbar bg-transparent">
+    <div className="fixed z-30 w-full navbar bg-transparent">
       <div className="navbar-start">
         <Link href="/" className="btn btn-ghost text-xl">
           ECOReward
