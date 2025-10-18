@@ -4,6 +4,7 @@ import UserBar from "./user-bar";
 import Link from "next/link";
 import { action_items } from "@/data/action-item";
 import { usePathname } from "next/navigation";
+import { FaExternalLinkAlt } from "react-icons/fa";
 
 const Sidebar = () => {
   const drawerLabelRef = useRef<HTMLLabelElement | null>(null);
@@ -42,6 +43,17 @@ const Sidebar = () => {
                 </Link>
               </li>
             ))}
+            <li onClick={closeDrawer} className={`text-md`} key="buy-eco">
+              <Link
+                href="https://testnet-preview.monorail.xyz/"
+                className={`text-md`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FaExternalLinkAlt />
+                Buy ECO
+              </Link>
+            </li>
           </ul>
         </div>
         <UserBar />

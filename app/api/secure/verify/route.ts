@@ -57,9 +57,10 @@ export async function POST(request: NextRequest) {
     }
     const action = aiResponse?.is_action;
     if (
-      (action && action === "recycling") ||
-      action === "tree_plantation" ||
-      action === "public_transport"
+      action &&
+      (action === "recycling" ||
+        action === "tree_plantation" ||
+        action === "public_transport")
     ) {
       const proofStatus = aiResponse.proof_status;
       let hash;
@@ -69,27 +70,22 @@ export async function POST(request: NextRequest) {
         hash = await sendReward(user.smart_address, 3);
       } else if (proofStatus && proofStatus === "unlikely") {
         hash = await sendReward(user.smart_address, 4);
-      } else {
-        return NextResponse.json(
-          {
-            message: aiResponse,
-            hash: null,
-            isSuccess: false,
-            error: "Your image is not valid!",
-          },
-          { status: 200 }
-        );
       }
       return NextResponse.json(
         { message: aiResponse, hash: hash, isSuccess: true },
         { status: 200 }
       );
+    } else {
+      return NextResponse.json(
+        {
+          message: aiResponse,
+          hash: null,
+          isSuccess: false,
+          error: "Your image is not valid!",
+        },
+        { status: 200 }
+      );
     }
-
-    return NextResponse.json(
-      { error: "Could not verify image", isSuccess: false },
-      { status: 400 }
-    );
   } catch (error) {
     console.error("Error saving file:", error);
     return NextResponse.json(
